@@ -1,4 +1,4 @@
-# implémentation numérique 
+# # Pricing d'Option Asiatique : Arbre Non-Recombinant
 ![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
 ![Finance](https://img.shields.io/badge/Finance-Derivatives-green)
 ![Status](https://img.shields.io/badge/Status-Educational-orange)
