@@ -101,69 +101,74 @@ def price_and_time_asian(N, S0, K, r, sigma, T):
         'Paths': len(paths)
     }
 
-# ============================================================================
-# 5 DATAFRAME DES PRIX 
-# ============================================================================
+def main():
+    # ============================================================================
+    # 5 DATAFRAME DES PRIX 
+    # ============================================================================
 
-# Calcul des résultats pour différentes valeurs de N
-results = []
-for Na in N2:
-    result = price_and_time_asian(Na, S0, K, r, sigma, T)
-    results.append({
-        'Type': 'Call asiatique',
-        'Strike': 'ATM',
-        'N': result['N'],
-        'Paths': result['Paths'],
-        'Price': result['Price'],
-        'Time': result['Time']
-    })
+    # Calcul des résultats pour différentes valeurs de N
+    results = []
+    for Na in N2:
+        result = price_and_time_asian(Na, S0, K, r, sigma, T)
+        results.append({
+            'Type': 'Call asiatique',
+            'Strike': 'ATM',
+            'N': result['N'],
+            'Paths': result['Paths'],
+            'Price': result['Price'],
+            'Time': result['Time']
+        })
 
-asian_option_dataframe = pd.DataFrame(results)
+    asian_option_dataframe = pd.DataFrame(results)
 
-# ============================================================================
-# 5 VISUALISATION DE L'ARBRE
-# ============================================================================
+    # ============================================================================
+    # 5 VISUALISATION DE L'ARBRE
+    # ============================================================================
 
 
-paths = paths_generate(N) 
-M = len(paths)  # 2^N chemins
+    paths = paths_generate(N) 
+    M = len(paths)  # 2^N chemins
 
-# Calcul des prix pour tous les chemins en utilisant la fonction path_prices
-prix = np.zeros((M, N + 1))
-for i in range(M):
-    prix[i, :] = path_prices(paths[i], S0, u, d)
-print("\n----affichage de l'arbre des prix----")
-# Affichage graphique
-plt.figure(figsize=(12, 8))
-for i in range(M):
-    plt.plot(range(N + 1), prix[i, :], 'o-', alpha=0.6, linewidth=1.5)
-plt.xlabel('Période')
-plt.xticks(range(N + 1))
-plt.ylabel('Prix')
-plt.title(f'Arbre Binomial Non Recombinant ({M} chemins)')
-plt.grid(True, alpha=0.3)
-plt.show()
+    # Calcul des prix pour tous les chemins en utilisant la fonction path_prices
+    prix = np.zeros((M, N + 1))
+    for i in range(M):
+        prix[i, :] = path_prices(paths[i], S0, u, d)
+    print("\n----affichage de l'arbre des prix----")
+    # Affichage graphique
+    plt.figure(figsize=(12, 8))
+    for i in range(M):
+        plt.plot(range(N + 1), prix[i, :], 'o-', alpha=0.6, linewidth=1.5)
+    plt.xlabel('Période')
+    plt.xticks(range(N + 1))
+    plt.ylabel('Prix')
+    plt.title(f'Arbre Binomial Non Recombinant ({M} chemins)')
+    plt.grid(True, alpha=0.3)
+    plt.show()
 
-# ============================================================================
-# AFFICHAGE DES PRIX ET TEMPS DE CALCUL
-# ============================================================================
+    # ============================================================================
+    # AFFICHAGE DES PRIX ET TEMPS DE CALCUL
+    # ============================================================================
 
-print("\n----Prix et temps de calcul pour différentes valeurs de N----")
-print(asian_option_dataframe)
+    print("\n----Prix et temps de calcul pour différentes valeurs de N----")
+    print(asian_option_dataframe)
 
-# ============================================================================
-# VISUALISATION DU TEMPS DE CALCUL EN FONCTION DE N
-# ============================================================================  
+    # ============================================================================
+    # VISUALISATION DU TEMPS DE CALCUL EN FONCTION DE N
+    # ============================================================================  
 
-print("\n----Visualisation du temps de calcul en fonction du nombre de périodes N----")
-plt.figure(figsize=(10, 6))
-plt.plot(asian_option_dataframe['N'], asian_option_dataframe['Time'], marker='o', linewidth=2, markersize=8)
-plt.xlabel('Nombre de périodes N', fontsize=12)
-plt.ylabel('Temps de calcul (secondes)', fontsize=12)
-plt.title('Croissance exponentielle du temps de calcul', fontsize=14)
-plt.grid(True, alpha=0.3)
-plt.tight_layout()
-plt.show()
+    print("\n----Visualisation du temps de calcul en fonction du nombre de périodes N----")
+    plt.figure(figsize=(10, 6))
+    plt.plot(asian_option_dataframe['N'], asian_option_dataframe['Time'], marker='o', linewidth=2, markersize=8)
+    plt.xlabel('Nombre de périodes N', fontsize=12)
+    plt.ylabel('Temps de calcul (secondes)', fontsize=12)
+    plt.title('Croissance exponentielle du temps de calcul', fontsize=14)
+    plt.grid(True, alpha=0.3)
+    plt.tight_layout()
+    plt.show()
+
+
+if __name__ == "__main__":
+    main()
 
 
 
